@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domOperation</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://wangdoc.com/javascript/assets/css/app.min.css">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Element 节点">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        h3 {
+            font-size: 1.5rem;
+            font-weight:  bold;
+            margin-top: 2rem;
+        }
+        body {
+            padding:  0 8rem;
+        }
+    </style>
+</head>
+<body>
+
+<h3 id="elementinsertadjacentelement">Element.insertAdjacentElement() <a class="markdownIt-Anchor" href="#elementinsertadjacentelement">#</a></h3><p><code>Element.insertAdjacentElement</code>方法在相对于当前元素的指定位置，插入一个新的节点。该方法返回被插入的节点，如果插入失败，返回<code>null</code>。</p><pre class="hljs"><code>element.insertAdjacentElement(position, element);
+</code></pre><p><code>Element.insertAdjacentElement</code>方法一共可以接受两个参数，第一个参数是一个字符串，表示插入的位置，第二个参数是将要插入的节点。第一个参数只可以取如下的值。</p><ul><li><code>beforebegin</code>：当前元素之前</li><li><code>afterbegin</code>：当前元素内部的第一个子节点前面</li><li><code>beforeend</code>：当前元素内部的最后一个子节点后面</li><li><code>afterend</code>：当前元素之后</li></ul><p>注意，<code>beforebegin</code>和<code>afterend</code>这两个值，只在当前节点有父节点时才会生效。如果当前节点是由脚本创建的，没有父节点，那么插入会失败。</p><pre class="hljs"><code><span class="hljs-keyword">var</span> p1 = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'p'</span>)
+<span class="hljs-keyword">var</span> p2 = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'p'</span>)
+p1.insertAdjacentElement(<span class="hljs-string">'afterend'</span>, p2) <span class="hljs-comment">// null</span>
+</code></pre><p>上面代码中，<code>p1</code>没有父节点，所以插入<code>p2</code>到它后面就失败了。</p><p>如果插入的节点是一个文档里现有的节点，它会从原有位置删除，放置到新的位置。</p><h3 id="elementinsertadjacenthtml，elementinsertadjacenttext">Element.insertAdjacentHTML()，Element.insertAdjacentText() <a class="markdownIt-Anchor" href="#elementinsertadjacenthtml，elementinsertadjacenttext">#</a></h3><p><code>Element.insertAdjacentHTML</code>方法用于将一个 HTML 字符串，解析生成 DOM 结构，插入相对于当前节点的指定位置。</p><pre class="hljs"><code>element.insertAdjacentHTML(position, text);
+</code></pre><p>该方法接受两个参数，第一个是一个表示指定位置的字符串，第二个是待解析的 HTML 字符串。第一个参数只能设置下面四个值之一。</p><ul><li><code>beforebegin</code>：当前元素之前</li><li><code>afterbegin</code>：当前元素内部的第一个子节点前面</li><li><code>beforeend</code>：当前元素内部的最后一个子节点后面</li><li><code>afterend</code>：当前元素之后</li></ul><pre class="hljs"><code><span class="hljs-comment">// HTML 代码：&lt;div id="one"&gt;one&lt;/div&gt;</span>
+<span class="hljs-keyword">var</span> d1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'one'</span>);
+d1.insertAdjacentHTML(<span class="hljs-string">'afterend'</span>, <span class="hljs-string">'&lt;div id="two"&gt;two&lt;/div&gt;'</span>);
+<span class="hljs-comment">// 执行后的 HTML 代码：</span>
+<span class="hljs-comment">// &lt;div id="one"&gt;one&lt;/div&gt;&lt;div id="two"&gt;two&lt;/div&gt;</span>
+</code></pre><p>该方法只是在现有的 DOM 结构里面插入节点，这使得它的执行速度比<code>innerHTML</code>方法快得多。</p><p>注意，该方法不会转义 HTML 字符串，这导致它不能用来插入用户输入的内容，否则会有安全风险。</p><p><code>Element.insertAdjacentText</code>方法在相对于当前节点的指定位置，插入一个文本节点，用法与<code>Element.insertAdjacentHTML</code>方法完全一致。</p><pre class="hljs"><code><span class="hljs-comment">// HTML 代码：&lt;div id="one"&gt;one&lt;/div&gt;</span>
+<span class="hljs-keyword">var</span> d1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'one'</span>);
+d1.insertAdjacentText(<span class="hljs-string">'afterend'</span>, <span class="hljs-string">'two'</span>);
+<span class="hljs-comment">// 执行后的 HTML 代码：</span>
+<span class="hljs-comment">// &lt;div id="one"&gt;one&lt;/div&gt;two</span>
+</code></pre><h3 id="elementremove">Element.remove() <a class="markdownIt-Anchor" href="#elementremove">#</a></h3><p><code>Element.remove</code>方法继承自 ChildNode 接口，用于将当前元素节点从它的父节点移除。</p><pre class="hljs"><code><span class="hljs-keyword">var</span> el = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'mydiv'</span>);
+el.remove();
+</code></pre><p>上面代码将<code>el</code>节点从 DOM 树里面移除。</p>
+<h3 id="elementscrollintoview">Element.scrollIntoView() <a class="markdownIt-Anchor" href="#elementscrollintoview">#</a></h3><p><code>Element.scrollIntoView</code>方法滚动当前元素，进入浏览器的可见区域，类似于设置<code>window.location.hash</code>的效果。</p><pre class="hljs"><code>el.scrollIntoView(); <span class="hljs-comment">// 等同于el.scrollIntoView(true)</span>
+el.scrollIntoView(<span class="hljs-literal">false</span>);
+</code></pre><p>该方法可以接受一个布尔值作为参数。如果为<code>true</code>，表示元素的顶部与当前区域的可见部分的顶部对齐（前提是当前区域可滚动）；如果为<code>false</code>，表示元素的底部与当前区域的可见部分的尾部对齐（前提是当前区域可滚动）。如果没有提供该参数，默认为<code>true</code>。</p>
+<h3 id="事件相关方法">事件相关方法 <a class="markdownIt-Anchor" href="#事件相关方法">#</a></h3><p>以下三个方法与<code>Element</code>节点的事件相关。这些方法都继承自<code>EventTarget</code>接口，详见相关章节。</p><ul><li><code>Element.addEventListener()</code>：添加事件的回调函数</li><li><code>Element.removeEventListener()</code>：移除事件监听函数</li><li><code>Element.dispatchEvent()</code>：触发事件</li></ul><pre class="hljs"><code>element.addEventListener(<span class="hljs-string">'click'</span>, listener, <span class="hljs-literal">false</span>);
+element.removeEventListener(<span class="hljs-string">'click'</span>, listener, <span class="hljs-literal">false</span>);
+
+<span class="hljs-keyword">var</span> event = <span class="hljs-keyword">new</span> Event(<span class="hljs-string">'click'</span>);
+element.dispatchEvent(event);
+</code></pre
+<h3 id="elementclosest">Element.closest() <a class="markdownIt-Anchor" href="#elementclosest">#</a></h3><p><code>Element.closest</code>方法接受一个 CSS 选择器作为参数，返回匹配该选择器的、最接近当前节点的一个祖先节点（包括当前节点本身）。如果没有任何节点匹配 CSS 选择器，则返回<code>null</code>。</p><pre class="hljs"><code><span class="hljs-comment">// HTML 代码如下</span>
+<span class="hljs-comment">// &lt;article&gt;</span>
+<span class="hljs-comment">//   &lt;div id="div-01"&gt;Here is div-01</span>
+<span class="hljs-comment">//     &lt;div id="div-02"&gt;Here is div-02</span>
+<span class="hljs-comment">//       &lt;div id="div-03"&gt;Here is div-03&lt;/div&gt;</span>
+<span class="hljs-comment">//     &lt;/div&gt;</span>
+<span class="hljs-comment">//   &lt;/div&gt;</span>
+<span class="hljs-comment">// &lt;/article&gt;</span>
+
+<span class="hljs-keyword">var</span> div03 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'div-03'</span>);
+
+<span class="hljs-comment">// div-03 最近的祖先节点</span>
+div03.closest(<span class="hljs-string">"#div-02"</span>) <span class="hljs-comment">// div-02</span>
+div03.closest(<span class="hljs-string">"div div"</span>) <span class="hljs-comment">// div-03</span>
+div03.closest(<span class="hljs-string">"article &gt; div"</span>) <span class="hljs-comment">//div-01</span>
+div03.closest(<span class="hljs-string">":not(div)"</span>) <span class="hljs-comment">// article</span>
+</code></pre><p>上面代码中，由于<code>closest</code>方法将当前节点也考虑在内，所以第二个<code>closest</code>方法返回<code>div-03</code>。</p>
+<h3 id="elementfirstelementchild，elementlastelementchild">Element.firstElementChild，Element.lastElementChild <a class="markdownIt-Anchor" href="#elementfirstelementchild，elementlastelementchild">#</a></h3><p><code>Element.firstElementChild</code>属性返回当前元素的第一个元素子节点，<code>Element.lastElementChild</code>返回最后一个元素子节点。</p><p>如果没有元素子节点，这两个属性返回<code>null</code>。</p><h3 id="elementnextelementsibling，elementpreviouselementsibling">Element.nextElementSibling，Element.previousElementSibling <a class="markdownIt-Anchor" href="#elementnextelementsibling，elementpreviouselementsibling">#</a></h3><p><code>Element.nextElementSibling</code>属性返回当前元素节点的后一个同级元素节点，如果没有则返回<code>null</code>。</p><pre class="hljs"><code><span class="hljs-comment">// HTML 代码如下</span>
+<span class="hljs-comment">// &lt;div id="div-01"&gt;Here is div-01&lt;/div&gt;</span>
+<span class="hljs-comment">// &lt;div id="div-02"&gt;Here is div-02&lt;/div&gt;</span>
+<span class="hljs-keyword">var</span> el = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'div-01'</span>);
+el.nextElementSibling
+<span class="hljs-comment">// &lt;div id="div-02"&gt;Here is div-02&lt;/div&gt;</span>
+</code></pre><p><code>Element.previousElementSibling</code>属性返回当前元素节点的前一个同级元素节点，如果没有则返回<code>null</code>。</p>
+<h3 id="elementclassname，elementclasslist">Element.className，Element.classList <a class="markdownIt-Anchor" href="#elementclassname，elementclasslist">#</a></h3><p><code>className</code>属性用来读写当前元素节点的<code>class</code>属性。它的值是一个字符串，每个<code>class</code>之间用空格分割。</p><p><code>classList</code>属性返回一个类似数组的对象，当前元素节点的每个<code>class</code>就是这个对象的一个成员。</p><pre class="hljs"><code><span class="hljs-comment">// HTML 代码 &lt;div class="one two three" id="myDiv"&gt;&lt;/div&gt;</span>
+<span class="hljs-keyword">var</span> div = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'myDiv'</span>);
+
+div.className
+<span class="hljs-comment">// "one two three"</span>
+
+div.classList
+<span class="hljs-comment">// {</span>
+<span class="hljs-comment">//   0: "one"</span>
+<span class="hljs-comment">//   1: "two"</span>
+<span class="hljs-comment">//   2: "three"</span>
+<span class="hljs-comment">//   length: 3</span>
+<span class="hljs-comment">// }</span>
+</code></pre><p>上面代码中，<code>className</code>属性返回一个空格分隔的字符串，而<code>classList</code>属性指向一个类似数组的对象，该对象的<code>length</code>属性（只读）返回当前元素的<code>class</code>数量。</p><p><code>classList</code>对象有下列方法。</p><ul><li><code>add()</code>：增加一个 class。</li><li><code>remove()</code>：移除一个 class。</li><li><code>contains()</code>：检查当前元素是否包含某个 class。</li><li><code>toggle()</code>：将某个 class 移入或移出当前元素。</li><li><code>item()</code>：返回指定索引位置的 class。</li><li><code>toString()</code>：将 class 的列表转为字符串。</li></ul><pre class="hljs"><code><span class="hljs-keyword">var</span> div = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'myDiv'</span>);
+
+div.classList.add(<span class="hljs-string">'myCssClass'</span>);
+div.classList.add(<span class="hljs-string">'foo'</span>, <span class="hljs-string">'bar'</span>);
+div.classList.remove(<span class="hljs-string">'myCssClass'</span>);
+div.classList.toggle(<span class="hljs-string">'myCssClass'</span>); <span class="hljs-comment">// 如果 myCssClass 不存在就加入，否则移除</span>
+div.classList.contains(<span class="hljs-string">'myCssClass'</span>); <span class="hljs-comment">// 返回 true 或者 false</span>
+div.classList.item(<span class="hljs-number">0</span>); <span class="hljs-comment">// 返回第一个 Class</span>
+div.classList.toString();
+</code></pre><p>下面比较一下，<code>className</code>和<code>classList</code>在添加和删除某个 class 时的写法。</p><pre class="hljs"><code><span class="hljs-keyword">var</span> foo = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'foo'</span>);
+
+<span class="hljs-comment">// 添加class</span>
+foo.className += <span class="hljs-string">'bold'</span>;
+foo.classList.add(<span class="hljs-string">'bold'</span>);
+
+<span class="hljs-comment">// 删除class</span>
+foo.classList.remove(<span class="hljs-string">'bold'</span>);
+foo.className = foo.className.replace(<span class="hljs-regexp">/^bold$/</span>, <span class="hljs-string">''</span>);
+</code></pre><p><code>toggle</code>方法可以接受一个布尔值，作为第二个参数。如果为<code>true</code>，则添加该属性；如果为<code>false</code>，则去除该属性。</p><pre class="hljs"><code>el.classList.toggle(<span class="hljs-string">'abc'</span>, boolValue);
+
+<span class="hljs-comment">// 等同于</span>
+<span class="hljs-keyword">if</span> (boolValue) {
+  el.classList.add(<span class="hljs-string">'abc'</span>);
+} <span class="hljs-keyword">else</span> {
+  el.classList.remove(<span class="hljs-string">'abc'</span>);
+}
+</code></pre>
+
+<script>
+    var h3 = document.getElementsByTagName('h3');
+    h3 = Array.from(h3);
+    h3.forEach((ele, i,) => {
+      ele.insertAdjacentText('afterbegin', i+1 +'、')
+    })
+</script>
+</body>
+</html>
